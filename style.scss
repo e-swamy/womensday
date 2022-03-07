@@ -1,0 +1,95 @@
+// @import "https://fonts.googleapis.com/css?family=Playfair+Display:400,700i,900i";
+
+$total: 144;
+$time: 4;
+$height: 400;
+$percent: 0.69444%;
+$dotSize: 0.9;
+
+body {
+  background: #000;
+}
+.womensday {
+  position: relative;
+  z-index: 2;
+
+  .content {
+    .title {
+      color: #fff;
+      text-align: center;
+      font-family: "lato", sans-serif;
+      font-weight: 800;
+      font-size: 45px;
+      letter-spacing: 5px;
+      background: linear-gradient(#fff, #ff0876);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+  }
+}
+
+.wrap {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  overflow: hidden;
+
+  &::before {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    content: "";
+    background: #000;
+    opacity: 0.5;
+    z-index: 1;
+  }
+}
+
+.c {
+  position: relative;
+  height: $height + px;
+  width: $percent;
+  margin-top: -$height + px;
+  animation: drop $time + s infinite ease-in;
+  &:after {
+    content: "";
+    position: absolute;
+    width: $dotSize + vw;
+    height: $dotSize + vw;
+    border-radius: 50%;
+    left: 50%;
+    bottom: -($dotSize/2) + vw;
+    margin-left: -($dotSize/2) + vw;
+  }
+}
+
+@for $i from 1 through $total {
+  $hue: (300 / $total) * $i;
+  .c:nth-child(#{$i}) {
+    left: ($i - 1) * $percent;
+    background-image: linear-gradient(
+      to bottom,
+      #000,
+      hsla($hue, 100%, 50%, 0.4)
+    );
+    animation-delay: random($total) * ($time/$total) * -1s;
+    &:after {
+      background: hsla($hue, 100%, 50%, 1);
+    }
+  }
+}
+
+@keyframes drop {
+  80% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(0, 150vh, 0);
+    opacity: 0;
+  }
+}
